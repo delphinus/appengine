@@ -328,6 +328,7 @@ func (q *Query) toProto(dst *pb.Query, appID string) error {
 	dst.CompiledCursor = q.start
 	dst.EndCompiledCursor = q.end
 	dst.Compile = proto.Bool(true)
+	dst.Count = proto.Int32(200)
 	return nil
 }
 
@@ -418,6 +419,8 @@ func callNext(c context.Context, res *pb.QueryResult, offset, limit int32) error
 	}
 	if limit >= 0 {
 		req.Count = proto.Int32(limit)
+	} else {
+		req.Count = proto.Int32(200)
 	}
 	if offset != 0 {
 		req.Offset = proto.Int32(offset)
